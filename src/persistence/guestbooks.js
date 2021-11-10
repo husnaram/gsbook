@@ -37,7 +37,6 @@ module.exports = {
 		FROM guestbooks WHERE id=${id}
 		FETCH FIRST ROW ONLY;
 		`);
-		console.log(rows);
 
 		return rows[0];
 	},

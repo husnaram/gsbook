@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   bcrypt: ^5.0.1
-  cors: ^2.8.5
   dotenv: ^10.0.0
   express: ^4.17.1
   helmet: ^4.6.0
@@ -20,7 +19,6 @@ specifiers:
 
 dependencies:
   bcrypt: 5.0.1
-  cors: 2.8.5
   dotenv: 10.0.0
   express: 4.17.1
   helmet: 4.6.0
@@ -1171,14 +1169,6 @@ packages:
       buf-compare: 1.0.1
       is-error: 2.2.2
     dev: true
-
-  /cors/2.8.5:
-    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
-    engines: {node: '>= 0.10'}
-    dependencies:
-      object-assign: 4.1.1
-      vary: 1.1.2
-    dev: false
 
   /cosmiconfig/7.0.1:
     resolution: {integrity: sha512-a1YWNUV2HwGimB7dU2s1wUMurNKjpx60HxBB6xUM8Re+2s1g1IIfJvFR0/iCF+XHdE0GMTKTuLR32UQff4TEyQ==}
