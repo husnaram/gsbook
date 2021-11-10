@@ -1,0 +1,253 @@
+securityDefinitions:
+  JwtAuth:
+    type: apiKey
+    name: authorization
+    in: header
+
+
+paths:
+  /api/users:
+    post:
+      tags:
+      - user
+      summary: Create user
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserBody'
+      responses:
+        '201':
+          description: A successful create user
+          schema:
+            content:
+              application/json:
+            $ref: '#/definitions/CreatedUser'
+        '422':
+          description: Unprocessable for not fill a field required or data fill not valid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            example:
+              error: "\"email\" is required"
+    get:
+      tags:
+      - user
+      summary: Get all users
+      responses:
+        '200':
+          description: Successful getting all user
+  /api/users/{userId}:
+    get:
+      tags:
+      - user
+      summary: Get single user
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Successful getting a user
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: userId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '404':
+          description: userId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "User #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+    patch:
+      tags:
+      - user
+      summary: Update a user
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        type: string
+      - name: body
+        in: body
+        schema:
+          type: object
+          $ref: '#/definitions/UpdateUserBody'
+      security:
+        - JwtAuth: []
+      responses:
+        '200':
+          description: Successful getting a user
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: userId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '422':
+          description: Unprocessable for field or data fill not valid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            example:
+              error: "\"full_nme\" is not allowed"
+        '404':
+          description: userId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "User #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+    delete:
+      tags:
+      - user
+      summary: Delete a user
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        type: string
+      security:
+        - JwtAuth: []
+      responses:
+        '200':
+          description: Successful deleting a user
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: userId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '404':
+          description: userId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "User #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+  /api/users/{userId}/guestbooks:
+    get:
+      tags:
+      - user
+      summary: Get all guestbooks from a user
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        type: uuid
+      responses:
+        '200':
+          description: Successful getting guestbooks of a user
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: userId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '404':
+          description: userId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "User #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+
+
+definitions:
+  UserBody:
+    type: object
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      password:
+        type: string
+  CreatedUser:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      updated_at:
+        type: string
+      created_at:
+        type: string
+    example:
+      id: "64bc4855-fdfb-4bf7-adc3-80dc19117c82"
+      email: "lamar.ha@gmail.com"
+      full_name: "Lir Ha"
+      updated_at: null
+      created_at: "2021-11-09T16:40:11.209Z"
+  UpdateUserBody:
+    type: object
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+

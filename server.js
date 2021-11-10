@@ -1,10 +1,29 @@
 const express = require('express');
 
-const morgan = require('morgan');
-const clientSession = require('client-sessions');
-const helmet = require('helmet');
+require('dotenv').config();
 
-const {SESSION_SECRET} = require('./config');
+const morgan = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      version: "1.0.0",
+      title: "GSBook",
+      description: "Guestbook API documentation - Make sure the endpoint that require authorization add 'Bearer' prefix into the value, so it's like this 'Bearer [token]'.",
+      contact: {
+        name: "Amazing Developer"
+      },
+      servers: ["http://localhost:5000"]
+    },
+  },
+  apis: ['./docs/*.yaml']
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const app = express();
 const api = require('./src/api');
@@ -12,16 +31,11 @@ const api = require('./src/api');
 app.get('/', (request, response) => response.sendStatus(200));
 app.get('/health', (request, response) => response.sendStatus(200));
 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(morgan('short'));
 app.use(express.json());
-app.use(
-  clientSession({
-    cookieName: 'session',
-    secret: SESSION_SECRET,
-    duration: 24 * 60 * 60 * 1000
-  })
-);
 app.use(helmet());
+app.use(cors());
 
 app.use(api);
 

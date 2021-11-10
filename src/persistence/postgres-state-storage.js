@@ -12,7 +12,7 @@ const postgresStateStorage = {
 
     await ensureMigrationsTable(db);
     // Load the single row of migration data from the database
-    const {rows} = await db.query('SELECT data FROM migrations');
+    const { rows } = await db.query('SELECT data FROM migrations');
 
     if (rows.length !== 1) {
       console.log(

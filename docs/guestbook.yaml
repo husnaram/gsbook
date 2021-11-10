@@ -1,0 +1,148 @@
+securityDefinitions:
+  JwtAuth:
+    type: apiKey
+    name: authorization
+    in: header
+
+paths:
+  /api/guestbooks:
+    post:
+      tags:
+      - guestbook
+      summary: Create guestbook
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/GuesbookBody'
+      security:
+        - JwtAuth: []
+      responses:
+        '201':
+          description: A successful create guestbook
+          schema:
+            content:
+              application/json:
+            $ref: '#/definitions/CreatedGuestbook'
+        '422':
+          description: Unprocessable for not fill a field required or data fill not valid
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+            example:
+              error: "\"message\" is required"
+        '401':
+          description: Unprocessable for not fill a field required or data fill not valid
+    get:
+      tags:
+      - guestbook
+      summary: Get all guestbooks
+      responses:
+        '200':
+          description: Successful getting all guestbooks
+  /api/guestbooks/{guestbooksId}:
+    get:
+      tags:
+      - guestbook
+      summary: Get single guestbook
+      parameters:
+      - name: guestbooksId
+        in: path
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Successful getting a guestbook
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: guestbooksId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '404':
+          description: guestbooksId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "Guestbook #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+    delete:
+      tags:
+      - guestbook
+      summary: Delete a guestbook
+      parameters:
+      - name: guestbooksId
+        in: path
+        required: true
+        type: string
+      security:
+        - JwtAuth: []
+      responses:
+        '200':
+          description: Successful deleting a guestbook
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: guestbookId not valid 
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "id must be uuid."
+        '404':
+          description: guestbookId not found
+          schema:
+            content:
+              application/json:
+            type: object
+            properties:
+              message:
+                type: string
+            example:
+                message: "Guestbook #64bc4855-fdfb-4bf7-adc3-80dc19117c81 not found"
+
+
+definitions:
+  GuesbookBody:
+    type: object
+    properties:
+      message:
+        type: string
+  CreatedGuestbook:
+    type: object
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+      user_id:
+        type: string
+      created_at:
+        type: string
+    example:
+      id: "72267a20-9fd6-4e12-9535-35a2d623afbd"
+      message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      user_id: "64bc4855-fdfb-4bf7-adc3-80dc19117c82"
+      created_at: "2021-11-09T16:40:11.209Z"

@@ -1,12 +1,14 @@
 const express = require('express');
 
-const {Router} = express;
+const { Router } = express;
 const router = new Router();
 
+const auth = require('./auth');
 const user = require('./user');
-const session = require('./session');
+const guestbook = require('./guestbook');
 
+router.use('/api/auth', auth);
 router.use('/api/users', user);
-router.use('/api/sessions', session);
+router.use('/api/guestbooks', guestbook);
 
 module.exports = router;

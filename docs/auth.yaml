@@ -1,0 +1,35 @@
+paths:
+  /api/auth/login:
+    post:
+      tags:
+      - auth
+      summary: Login
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '201':
+          description: A successful create guestbook
+          schema:
+            content:
+              application/json:
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+        '401':
+          description: Unsuccessful to login
+          schema:
+            content:
+              application/json:
+            properties:
+              message:
+                type: string

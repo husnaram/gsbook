@@ -1,4 +1,6 @@
-const {Pool} = require('pg');
+require('dotenv').config();
+
+const { Pool } = require('pg');
 
 module.exports = new Pool({
   max: 10,
