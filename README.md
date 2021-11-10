@@ -54,6 +54,4 @@ Global concerns like security, cookie parsing, body parsing and request logging 
 
 The authentication is done through `/api/auth/` endpoints (see [./src/api/auth.js](./src/api/auth.js)).
 
-
-
-This repo based on [Express Postgres Starter](https://github.com/HugoDF/express-postgres-starter/) by [HugoDF](https://github.com/HugoDF)
+> This repo based on [Express Postgres Starter](https://github.com/HugoDF/express-postgres-starter/) by [HugoDF](https://github.com/HugoDF)
